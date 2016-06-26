@@ -12,6 +12,7 @@ import {
   View,
 StatusBar,
 } from 'react-native';
+import LeftDrawerMenu from './App/component/drawerMenu/LeftDrawerMenu.js';
 
 class NewsAPP_RN extends Component {
   render() {
@@ -19,6 +20,8 @@ class NewsAPP_RN extends Component {
       <View style={styles.container}>
 
         <StatusBar backgroundColor={'red'} />
+
+        <LeftDrawerMenu/>
 
       </View>
     );
@@ -28,9 +31,6 @@ class NewsAPP_RN extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   welcome: {
     fontSize: 20,
