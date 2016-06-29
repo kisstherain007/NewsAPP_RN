@@ -12,11 +12,14 @@ import {
   View,
 StatusBar,
 } from 'react-native';
-import LeftDrawerMenu from './App/component/drawerMenu/LeftDrawerMenu.js';
+import LeftDrawerMenu from './app/component/drawerMenu/LeftDrawerMenu.js';
 
 class NewsAPP_RN extends Component {
+
   render() {
+
     return (
+
       <View style={styles.container}>
 
         <StatusBar backgroundColor={'red'} />
