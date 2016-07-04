@@ -13,6 +13,7 @@ import {
     View,
     StatusBar,
     BackAndroid,
+    TouchableOpacity
 } from 'react-native';
 import LeftDrawerMenu from './app/component/drawerMenu/LeftDrawerMenu.js';
 import WebViewComponent from './app/component/home/WebViewComponent';
@@ -40,6 +41,34 @@ class NewsAPP_RN extends Component {
     BackAndroid.removeEventListener();
   }
 
+  _leftButton(){
+    return (
+        <TouchableOpacity
+            style={styles.navBarLeftButton}>
+          <Text style={[styles.navBarText, styles.navBarButtonText]}>
+            Back
+          </Text>
+        </TouchableOpacity>
+    );
+  }
+
+  _rightButton(){
+    return (
+        <TouchableOpacity
+            style={styles.navBarRightButton}>
+          <Text style={[styles.navBarText, styles.navBarButtonText]}>
+            Next
+          </Text>
+        </TouchableOpacity>
+
+    );
+  }
+
+  _title(){
+    return (
+      <Text style={[styles.navBarText, styles.navBarTitleText]}>新闻1</Text>
+  );}
+
   render() {
 
     return (
@@ -48,7 +77,13 @@ class NewsAPP_RN extends Component {
             style={styles.container}
             tintColor='#FF6600'
             initialRoute={{id: 'main'}}
-            renderScene={this._getMainComponent}/>
+            renderScene={this._getMainComponent}
+            navigationBar={
+              <Navigator.NavigationBar
+                  routeMapper={{LeftButton: this._leftButton, RightButton: this._rightButton, Title: this._title}}
+                  style={{backgroundColor: 'yellow', justifyContent:'center'}}
+              />
+            }/>
     );
   }
 
@@ -97,6 +132,32 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  navButtonStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor:'red'
+  },
+  navBar: {
+    backgroundColor: 'white',
+  },
+  navBarText: {
+    fontSize: 16,
+    marginVertical: 10,
+  },
+  navBarTitleText: {
+    color: '#373E4D',
+    fontWeight: '500',
+    marginVertical: 9,
+  },
+  navBarLeftButton: {
+    paddingLeft: 10,
+  },
+  navBarRightButton: {
+    paddingRight: 10,
+  },
+  navBarButtonText: {
+    color: '#5890FF',
   },
 });
 
