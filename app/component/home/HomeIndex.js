@@ -10,8 +10,13 @@ import {
     Text,
     ToastAndroid,
     Image,
+    Navigator,
+    BackAndroid,
     View
 } from 'react-native';
+import WebViewComponent from '../home/WebViewComponent';
+
+var _navigator;
 
 export default class extends Component {
 
@@ -28,7 +33,23 @@ export default class extends Component {
 
     componentDidMount() {
 
+        BackAndroid.addEventListener('hardwareBackPress', ()=>{
+
+            if (_navigator.getCurrentRoutes().length === 1) {
+
+                return false;
+            }
+            _navigator.pop();
+
+            return true;
+        });
+
         this._getRowsFromNet();
+    }
+
+    componentDidUnMount() {
+
+        BackAndroid.removeEventListener();
     }
 
     _getRowsFromNet(){
@@ -84,16 +105,33 @@ export default class extends Component {
 
     _pressRow(rowData) {
 
-        this.props.navigator.push({id: "web"});
+        _navigator.push({id: "web"});
+    }
+
+    _getMainView(route, navigator){
+
+        _navigator = navigator;
+
+        switch (route.id){
+
+            case 'list':
+                return (
+                    <ListView
+                        dataSource={this.state.dataSource}
+                        renderRow={this._renderRow.bind(this)}/>
+                );
+            case 'web':
+                return <WebViewComponent/>;
+        }
     }
 
     render(){
 
         return (
-
-            <ListView dataSource={this.state.dataSource}
-                      renderRow={this._renderRow.bind(this)}
-            />
+            <Navigator
+                tintColor='#FF6600'
+                initialRoute={{id: 'list'}}
+                renderScene={this._getMainView.bind(this)}/> // bind
         );
     };
 }

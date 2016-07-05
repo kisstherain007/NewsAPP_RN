@@ -8,37 +8,62 @@ import {
     DrawerLayoutAndroid,
     Text,
     TouchableHighlight,
-    StyleSheet
+    StyleSheet,
+    Navigator,
+    TouchableOpacity
 } from 'react-native';
 
 import HomeIndex from '../home/HomeIndex';
 import NewsComponent from '../home/NewsComponent';
 
+var _navigator;
+
 export default class LeftDrawerMenu extends Component {
 
-    constructor(props){
-        super(props);
+    _getMainView(route, navigator){
 
-        this.state = {
-             menuTag : 'menu1',
+        _navigator = navigator;
+
+        switch (route.id){
+
+            case 'main':
+                return <HomeIndex navigator={navigator}/>;
+            case 'NewsComponent':
+                return <NewsComponent/>
         }
     }
 
-    _getMainView(){
-
-        switch (this.state.menuTag){
-
-            case 'menu1':
-                return <HomeIndex navigator={this.props.navigator}/>;
-            case 'menu2':
-                return <NewsComponent/>;
-        }
+    _leftButton(){
+        return (
+            <TouchableOpacity
+                style={styles.navBarLeftButton}>
+                <Text style={[styles.navBarText, styles.navBarButtonText]}>
+                </Text>
+            </TouchableOpacity>
+        );
     }
+
+    _rightButton(){
+        return (
+            <TouchableOpacity
+                style={styles.navBarRightButton}>
+                <Text style={[styles.navBarText, styles.navBarButtonText]}>
+                </Text>
+            </TouchableOpacity>
+
+        );
+    }
+
+    _title(){
+        return (
+            <Text style={[styles.navBarText, styles.navBarTitleText]}>新闻1</Text>
+        );}
 
     _processItemClick(menuTag){
 
         this.drawer.closeDrawer();
-        this.setState({menuTag});
+
+        _navigator.push({id: menuTag});
     }
 
     render() {
@@ -54,13 +79,13 @@ export default class LeftDrawerMenu extends Component {
 
                 <View style={{flex: 3,}}>
 
-                    <TouchableHighlight style={styles.leftMenuStyle} onPress={()=>this._processItemClick('menu1')}>
+                    <TouchableHighlight style={styles.leftMenuStyle} onPress={()=>this._processItemClick('main')}>
 
                         <Text>新闻1</Text>
 
                     </TouchableHighlight>
 
-                    <TouchableHighlight  style={styles.leftMenuStyle} onPress={()=>this._processItemClick('menu2')}>
+                    <TouchableHighlight  style={styles.leftMenuStyle} onPress={()=>this._processItemClick('NewsComponent')}>
 
                         <Text>新闻2</Text>
 
@@ -81,8 +106,17 @@ export default class LeftDrawerMenu extends Component {
 
                 <View style={{flex:1, alignItems: 'stretch', justifyContent: 'flex-start'}}>
 
-                    {this._getMainView()}
-
+                    <Navigator
+                        style={styles.container}
+                        tintColor='#FF6600'
+                        initialRoute={{id: 'main'}}
+                        renderScene={this._getMainView}
+                        navigationBar={
+                            <Navigator.NavigationBar
+                                routeMapper={{LeftButton: this._leftButton, RightButton: this._rightButton, Title: this._title}}
+                                style={{backgroundColor: 'yellow'}}
+                            />
+                        }/>
                 </View>
 
             </DrawerLayoutAndroid>
@@ -108,5 +142,31 @@ const styles = StyleSheet.create({
     leftMenuTextStyle: {
         fontSize: 20,
         margin: 10,
-    }
+    },
+    navButtonStyle: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor:'red'
+    },
+    navBar: {
+        backgroundColor: 'white',
+    },
+    navBarText: {
+        fontSize: 16,
+        marginVertical: 10,
+    },
+    navBarTitleText: {
+        color: '#373E4D',
+        fontWeight: '500',
+        marginVertical: 9,
+    },
+    navBarLeftButton: {
+        paddingLeft: 10,
+    },
+    navBarRightButton: {
+        paddingRight: 10,
+    },
+    navBarButtonText: {
+        color: '#5890FF',
+    },
 });
