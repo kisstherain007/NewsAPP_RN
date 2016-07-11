@@ -16,6 +16,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 import LeftDrawerMenu from './app/component/drawerMenu/LeftDrawerMenu.js';
+import Root from './app/root';
 
 var _navigator;
 
@@ -87,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('NewsAPP_RN', () => NewsAPP_RN);
+AppRegistry.registerComponent('NewsAPP_RN', () => Root);
